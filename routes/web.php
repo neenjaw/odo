@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +22,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('verify-login/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+Route::get('/', [VehicleController::class, 'showVehicles'])->middleware('auth');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');

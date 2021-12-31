@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Mail\MagicLoginLink;
 use App\Models\LoginToken;
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,5 +58,10 @@ class User extends Authenticatable
             'expires_at' => now()->addMinutes(15),
         ]);
         Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at));
+    }
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
     }
 }
