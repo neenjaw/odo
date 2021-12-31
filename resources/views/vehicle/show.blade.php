@@ -8,7 +8,14 @@
 
     <div class="w-full max-w-lg bg-white shadow-lg rounded-md p-4 flex flex-col gap-4">
         @foreach ($milageEntries as $milageEntry)
-            "entry"
+            <div>
+                <ul>
+                    <li>{{ $milageEntry->odometer_reading }}</li>
+                    <li>{{ $milageEntry->odometer_diff }}</li>
+                    <li>{{ $milageEntry->milage }} km / L</li>
+                    <li>{{ $milageEntry->fuel_economy }} L / 100km</li>
+                </ul>
+            </div>
         @endforeach
     </div>
     <div class="w-full max-w-lg flex justify-between items-center">

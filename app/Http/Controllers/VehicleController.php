@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MilageEntry;
 use App\Models\Vehicle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,11 @@ class VehicleController extends Controller
             return redirect()->back();
         }
 
+        $entries = MilageEntry::getForVehicle($vehicle->id);
+
         return view('vehicle.show', [
             'vehicle' => $vehicle,
-            'milageEntries' => [],
+            'milageEntries' => $entries,
         ]);
     }
 }
