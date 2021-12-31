@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MilageEntry;
 use App\Models\User;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,5 +18,10 @@ class Vehicle extends Model
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function milageEntries()
+    {
+        return $this->hasMany(MilageEntry::class);
     }
 }

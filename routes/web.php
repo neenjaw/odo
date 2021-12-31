@@ -22,6 +22,16 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('verify-login/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
 });
 
-Route::get('/', [VehicleController::class, 'showVehicles'])->middleware('auth');
+Route::prefix('vehicle')->group(function () {
+    Route::get('/', [VehicleController::class, 'showVehicleForm'])->name('vehicle.form');
+    Route::post('/', [VehicleController::class, 'createVehicle'])->name('vehicle.create');
+    Route::get('/{id}', [VehicleController::class, 'showVehicle'])->name('vehicle.show');
+});
+
+Route::prefix('milage')->group(function () {
+    Route::get('/', [MilageController::class, 'showMilageForm'])->name('milage.form');
+});
+
+Route::get('/', [VehicleController::class, 'index'])->middleware('auth')->name('index');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
