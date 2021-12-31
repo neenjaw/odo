@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['guest']], function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login.show');
     Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
     Route::get('verify-login/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
 });
 

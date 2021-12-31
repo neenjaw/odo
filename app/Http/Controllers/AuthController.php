@@ -7,24 +7,31 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function showLogin(): View
     {
         return view('auth.login');
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(Request $request): RedirectResponse | View
     {
         $data = $request->validate([
-            'email' => ['required', 'email', 'exists:users,email'],
+            'email' => ['required', 'email'],
         ]);
 
-        User::whereEmail($data['email'])
-            ->first()
-            ->sendLoginLink();
+        $user = User::whereEmail($data['email'])->first();
 
+        if (!$user) {
+            return view('auth.login', [
+                'register' => true,
+                'email' => $data['email'],
+            ]);
+        }
+
+        $user->sendLoginLink();
         session()->flash('success', true);
         return redirect()->back();
     }
@@ -42,5 +49,17 @@ class AuthController extends Controller
         $token->consume();
         Auth::login($token->user);
         return redirect('/');
+    }
+
+    public function register(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'email' => ['required', 'email', 'unique:users,email'],
+            'name' => ['required'],
+        ]);
+
+        User::create(['name' => $data['name'], 'email' => $data['email']])->sendLoginLink();
+        session()->flash('success', true);
+        return redirect()->back();
     }
 }
