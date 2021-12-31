@@ -25,6 +25,7 @@ services:
             - pgsql
     pgsql:
         image: 'postgres:13'
+        container_name: odo_db
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
