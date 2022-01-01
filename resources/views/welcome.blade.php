@@ -9,7 +9,7 @@
     <div class="w-full max-w-lg bg-white shadow-lg rounded-md p-4 flex flex-col gap-4">
         @foreach ($vehicles as $vehicle)
             <button
-            class="w-full p-2 pl-4 rounded-md border border-gray-400 flex items-center hover:bg-sky-300"
+            class="transition-colors w-full p-2 pl-4 rounded-md border border-gray-400 flex items-center hover:bg-sky-100"c
             onclick="window.location='{{ route('vehicle.show', ['id' => $vehicle->id]) }}'">
                 <div class="w-10 h-10 flex items-center justify-center rounded-3xl bg-gray-700 text-white">
                     {{ strtoupper(substr($vehicle->name, 0, 1)) }}
@@ -22,7 +22,7 @@
         @endforeach
     </div>
 
-    <a href="{{ route('milage.form') }}" class="w-full max-w-lg bg-green-300 hover:bg-green-400 shadow-lg rounded-md p-4 text-center">
+    <a href="{{ route('vehicle.form') }}" class="w-full max-w-lg bg-green-100 hover:bg-green-200 shadow-lg rounded-md p-4 text-center">
         Add a Vehicle
     </a>
   </div>

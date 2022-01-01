@@ -13,8 +13,9 @@ class MilageEntry extends Model
 {
     use HasFactory, Uuids;
 
-    protected $fillable = ['odometer_reading', 'vehicle_id', 'fuel_volume', 'fuel_cost'];
+    protected $fillable = ['odometer_reading', 'vehicle_id', 'fuel_volume', 'fuel_cost', 'entered_at'];
     protected $guarded = ['vehicle_id'];
+    protected $dates = ['entered_at'];
 
     public function vehicle()
     {
@@ -24,7 +25,7 @@ class MilageEntry extends Model
     public static function getForVehicle(string $vehicle_id): array
     {
         $entries = MilageEntry::where('vehicle_id', $vehicle_id)
-            ->orderByDesc('created_at')
+            ->orderByDesc('entered_at')
             ->get();
 
         return $entries->zip($entries->skip(1))
@@ -37,6 +38,7 @@ class MilageEntry extends Model
                 $dto->odometer_diff = self::getOdometerDifference($entry, $previousEntry);
                 $dto->milage = self::getMilage($entry, $dto->odometer_diff);
                 $dto->fuel_economy = self::getFuelEconomy($entry, $dto->odometer_diff);
+                $dto->entered_at = self::getFormattedDateTime($entry);
 
                 return $dto;
             })
@@ -65,5 +67,10 @@ class MilageEntry extends Model
             return null;
         }
         return $a->fuel_volume / $diff * 100;
+    }
+
+    private static function getFormattedDateTime(self $a): string
+    {
+        return $a->entered_at->format('Y-m-d H:i:s');
     }
 }

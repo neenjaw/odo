@@ -19,6 +19,7 @@ class CreateMilageEntriesTable extends Migration
             $table->unsignedInteger('odometer_reading');
             $table->decimal('fuel_volume', 5, 3, true)->nullable();
             $table->decimal('fuel_cost', 5, 2)->nullable();
+            $table->dateTime('entered_at');
             $table->timestamps();
         });
     }
